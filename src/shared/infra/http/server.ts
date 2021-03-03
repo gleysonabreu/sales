@@ -3,7 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import AppHandleError from '@shared/errors/AppHandleError';
 import routes from './routes';
+import connection from '../typeorm';
 
+connection();
 const app = express();
 
 app.use(cors());

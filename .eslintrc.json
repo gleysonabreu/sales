@@ -20,6 +20,8 @@
     "no-console": "warn",
     "prettier/prettier": "error",
     "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

@@ -6,4 +6,6 @@ export default interface IProductsRepository {
   findName(_name: string): Promise<Product | undefined>;
   findAll(): Promise<Product[]>;
   show(_id: string): Promise<Product | undefined>;
+  update(_product: Product): Promise<Product>;
+  delete(_product: Product): Promise<void>;
 }

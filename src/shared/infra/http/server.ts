@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
 import AppHandleError from '@shared/errors/AppHandleError';

@@ -1,7 +1,7 @@
 export = {
-  hashSaltRounds: 10,
+  hashSaltRounds: Number(process.env.BCRYPT_SALT_ROUNDS),
   jwt: {
-    secret: 'fhsfgsgfsofgiosfgs',
-    duration: '1d',
+    secret: String(process.env.JWT_SECRET),
+    duration: process.env.JWT_DURATION || '1h',
   },
 };

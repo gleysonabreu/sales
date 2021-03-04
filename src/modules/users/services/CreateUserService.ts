@@ -1,5 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+import { hash as encryptPassword } from '@shared/services/Crypt';
 import * as Yup from 'yup';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
@@ -28,7 +29,12 @@ class CreateUserService {
     const findEmail = await this.usersRepository.findAny({ email });
     if (findEmail) throw new AppError('This email already exists');
 
-    const user = await this.usersRepository.create({ name, email, password });
+    const passwordEncrypt = await encryptPassword(password);
+    const user = await this.usersRepository.create({
+      name,
+      email,
+      password: passwordEncrypt,
+    });
     return user;
   }
 }

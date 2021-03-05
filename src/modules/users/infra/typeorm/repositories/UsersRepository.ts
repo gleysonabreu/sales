@@ -16,6 +16,11 @@ class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
+  async update(user: User): Promise<User> {
+    const updateUser = await this.ormRepository.save(user);
+    return updateUser;
+  }
+
   async findAll(): Promise<User[]> {
     const users = await this.ormRepository.find();
     return users;

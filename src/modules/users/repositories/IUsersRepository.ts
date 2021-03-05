@@ -8,4 +8,5 @@ export default interface IUsersRepository {
   ): Promise<User | undefined>;
   create(_user: ICreateUser): Promise<User>;
   findAll(): Promise<User[]>;
+  update(_user: User): Promise<User>;
 }

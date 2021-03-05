@@ -25,11 +25,12 @@
   "scripts": {
     "dev:server": "cross-env NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --respawn --poll --inspect --transpile-only --ignore-watch node_modules ./src/shared/infra/http/server.ts",
     "lint": "eslint . --ext .ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js --config ./src/config/ormConfig.ts"
+    "typeorm": "cross-env NODE_ENV=dev ts-node-dev ./node_modules/typeorm/cli.js --config ./src/config/ormConfig.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "date-fns": "^2.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",

@@ -1,6 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 import * as Yup from 'yup';
+import { resolve } from 'path';
 import AppError from '@shared/errors/AppError';
+import EmailService from '@shared/services/EmailService';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 import IUsersRepository from '../repositories/IUsersRepository';
 
@@ -19,6 +21,16 @@ class SendForgotPasswordToken {
   ) {}
 
   async execute({ email }: IRequest): Promise<void> {
+    const path = resolve(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'shared',
+      'templates',
+      'email',
+      'forgotPassword.hbs',
+    );
     const schema = Yup.object().shape({
       email: Yup.string().email().required(),
     });
@@ -27,7 +39,17 @@ class SendForgotPasswordToken {
     const user = await this.usersRepository.findAny({ email });
     if (!user) throw new AppError('User does not exists.');
 
-    await this.userTokensRepository.create(user.id);
+    const { token } = await this.userTokensRepository.create(user.id);
+    await EmailService.sendMail({
+      path,
+      subject: 'Forgot Password SalesAPI',
+      to: user.email,
+      variables: {
+        name: user.name,
+        token,
+        link: String(process.env.SALES_API_DEFAULT_URL),
+      },
+    });
   }
 }
 

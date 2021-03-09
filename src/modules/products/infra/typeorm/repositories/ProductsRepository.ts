@@ -10,6 +10,12 @@ class ProductsRepository implements IProductsRepository {
     this.ormRepository = getRepository(Product);
   }
 
+  async updateQuantity(
+    products: { id: string; quantity: number }[],
+  ): Promise<void> {
+    await this.ormRepository.save(products);
+  }
+
   async findName(name: string): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne({ name });
     return product;

@@ -8,4 +8,5 @@ export default interface IProductsRepository {
   show(_id: string): Promise<Product | undefined>;
   update(_product: Product): Promise<Product>;
   delete(_product: Product): Promise<void>;
+  updateQuantity(_products: { id: string; quantity: number }[]): Promise<void>;
 }

@@ -1,4 +1,5 @@
 import ICreateCustomerDTO from '@modules/customers/dtos/ICreateCustomerDTO';
+import IFindAllPaginationDTO from '@modules/customers/dtos/IFindAllPaginationDTO';
 import {
   FindConditions,
   getRepository,
@@ -25,8 +26,11 @@ class CustomersRepository implements ICustomersRepository {
     return customer;
   }
 
-  async findAll(): Promise<Customer[]> {
-    const customers = await this.ormRepository.find();
+  async findAll(take: number = 0, skip: number = 0): Promise<Customer[]> {
+    const customers = await this.ormRepository.find({
+      take,
+      skip,
+    });
     return customers;
   }
 

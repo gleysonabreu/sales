@@ -8,9 +8,14 @@ import DeleteCustomerService from '../../../services/DeleteCustomerService';
 
 class CustomerController {
   async index(request: Request, response: Response): Promise<Response> {
+    const { page = 1, perPage } = request.query;
     const listCustomerService = container.resolve(ListCustomerService);
-    const customers = await listCustomerService.execute();
+    const { customers, totalCustomers } = await listCustomerService.execute({
+      page: Number(page),
+      perPage: Number(perPage),
+    });
 
+    response.header('X-Total-Count', `${totalCustomers}`);
     return response.json(customers);
   }
 

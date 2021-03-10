@@ -883,6 +883,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"class-transformer@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "class-transformer@npm:0.4.0"
+  checksum: 915db337796f6a4d0c2c09bf1c0214eff01e1247836524fdaa170f0c3457f4b5f9ece1068cdb2667e42e01572aa1b08b9995c298f2956d1c8a84884c8d5ea5ff
+  languageName: node
+  linkType: hard
+
 "cli-highlight@npm:^2.1.10":
   version: 2.1.10
   resolution: "cli-highlight@npm:2.1.10"
@@ -3769,6 +3776,7 @@ fsevents@~2.3.1:
     "@typescript-eslint/eslint-plugin": ^4.16.1
     "@typescript-eslint/parser": ^4.16.1
     bcrypt: ^5.0.1
+    class-transformer: ^0.4.0
     cors: ^2.8.5
     cross-env: ^7.0.3
     date-fns: ^2.19.0

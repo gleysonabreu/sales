@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 import UploadAvatarService from '../../../services/UploadAvatarService';
 
 class UserAvatarController {
@@ -12,7 +13,7 @@ class UserAvatarController {
       avatar,
     });
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }
 

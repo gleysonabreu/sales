@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import RedisCache from '@shared/cache/RedisCache';
 import IProductsRepository from '../repositories/IProductsRepository';
 import Product from '../infra/typeorm/entities/Product';
 
@@ -10,7 +11,17 @@ class ListProductService {
   ) {}
 
   async execute(): Promise<Product[]> {
-    const products = await this.productsRepository.findAll();
+    const redisCache = new RedisCache();
+
+    let products = await redisCache.recover<Product[]>(
+      'api-sales-PRODUCT_LIST',
+    );
+
+    if (!products) {
+      products = await this.productsRepository.findAll();
+      await redisCache.save('api-sales-PRODUCT_LIST', products);
+    }
+
     return products;
   }
 }

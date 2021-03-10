@@ -10,6 +10,12 @@ class ProductsRepository implements IProductsRepository {
     this.ormRepository = getRepository(Product);
   }
 
+  async updateQuantity(
+    products: { id: string; quantity: number }[],
+  ): Promise<void> {
+    await this.ormRepository.save(products);
+  }
+
   async findName(name: string): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne({ name });
     return product;
@@ -30,6 +36,15 @@ class ProductsRepository implements IProductsRepository {
   async show(id: string): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne({ id });
     return product;
+  }
+
+  async update(product: Product): Promise<Product> {
+    const updateProduct = await this.ormRepository.save(product);
+    return updateProduct;
+  }
+
+  async delete(product: Product): Promise<void> {
+    await this.ormRepository.remove(product);
   }
 }
 

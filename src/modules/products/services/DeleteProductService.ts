@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import * as Yup from 'yup';
+import RedisCache from '@shared/cache/RedisCache';
 import IProductsRepository from '../repositories/IProductsRepository';
 
 interface IRequest {
@@ -20,9 +21,11 @@ class DeleteProductService {
     });
     await schema.validate({ id }, { abortEarly: false });
 
+    const redisCache = new RedisCache();
     const product = await this.productsRepository.show(id);
     if (!product) throw new AppError('Product not found.');
 
+    await redisCache.invalidate('api-sales-PRODUCT_LIST');
     await this.productsRepository.delete(product);
   }
 }

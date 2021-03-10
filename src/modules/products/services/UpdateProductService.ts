@@ -1,3 +1,4 @@
+import RedisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import * as Yup from 'yup';
@@ -27,6 +28,7 @@ class UpdateProductService {
     });
     await schema.validate({ name, price, quantity, id }, { abortEarly: false });
 
+    const redisCache = new RedisCache();
     const product = await this.productsRepository.show(id);
     if (!product) throw new AppError('Product not found.');
 
@@ -40,7 +42,9 @@ class UpdateProductService {
     product.price = price;
     product.quantity = quantity;
 
+    await redisCache.invalidate('api-sales-PRODUCT_LIST');
     await this.productsRepository.update(product);
+
     return product;
   }
 }

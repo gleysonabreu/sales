@@ -3563,6 +3563,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"rate-limiter-flexible@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "rate-limiter-flexible@npm:2.2.1"
+  checksum: a1ec42fe3e7d726fc355ecac16755f142520d32a4862cbc0b237af9c552235e400797e4cf843da8d27e5c874566bfd7ac8a0e67e1088dc4b6dccaf931bc37e61
+  languageName: node
+  linkType: hard
+
 "raw-body@npm:2.4.0":
   version: 2.4.0
   resolution: "raw-body@npm:2.4.0"
@@ -3903,6 +3910,7 @@ fsevents@~2.3.1:
     nodemailer: ^6.5.0
     pg: ^8.5.1
     prettier: ^2.2.1
+    rate-limiter-flexible: ^2.2.1
     redis: ^3.0.2
     reflect-metadata: ^0.1.13
     ts-node-dev: ^1.1.6

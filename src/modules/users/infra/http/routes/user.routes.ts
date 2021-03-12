@@ -15,7 +15,7 @@ userRoutes.post('/', userController.create);
 userRoutes.patch(
   '/avatar',
   authMiddleware,
-  multer(uploadConfig).single('avatar'),
+  multer(uploadConfig.multer).single('avatar'),
   userAvatarController.update,
 );
 

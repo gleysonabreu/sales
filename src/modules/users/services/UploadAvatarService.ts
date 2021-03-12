@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe';
 import * as Yup from 'yup';
 import AppError from '@shared/errors/AppError';
-import path from 'path';
 import uploadConfig from '@config/upload';
-import fs from 'fs';
+import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvieder';
+import S3StorageProvieder from '@shared/providers/StorageProvider/S3StorageProvieder';
 import IUsersRepository from '../repositories/IUsersRepository';
 import User from '../infra/typeorm/entities/User';
 
@@ -25,20 +25,19 @@ class UploadAvatarService {
       avatar: Yup.string().required(),
     });
     await schema.validate({ id, avatar }, { abortEarly: false });
-
+    const uploadProvider =
+      uploadConfig.driver === 's3'
+        ? new S3StorageProvieder()
+        : new DiskStorageProvider();
     const user = await this.usersRepository.findAny({ id });
     if (!user) throw new AppError('User not found');
 
     if (user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
-
-      if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath);
-      }
+      await uploadProvider.deleteFile(user.avatar);
     }
 
-    user.avatar = avatar;
+    const fileName = await uploadProvider.saveFile(avatar);
+    user.avatar = fileName;
     const userUpdated = await this.usersRepository.update(user);
     return userUpdated;
   }

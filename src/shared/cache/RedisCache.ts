@@ -4,8 +4,13 @@ import redisConfig from '@config/cache';
 class RedisCache {
   private client: RedisClient;
 
+  private connected: boolean = false;
+
   constructor() {
-    this.client = new Redis(redisConfig.config.redis);
+    if (!this.connected) {
+      this.client = new Redis(redisConfig.config.redis);
+      this.connected = true;
+    }
   }
 
   async save(key: string, value: any): Promise<void> {
@@ -26,4 +31,4 @@ class RedisCache {
   }
 }
 
-export default RedisCache;
+export default new RedisCache();

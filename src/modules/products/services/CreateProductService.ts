@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import * as Yup from 'yup';
-import RedisCache from '@shared/cache/RedisCache';
+import redisCache from '@shared/cache/RedisCache';
 import IProductsRepository from '../repositories/IProductsRepository';
 import Product from '../infra/typeorm/entities/Product';
 
@@ -26,7 +26,6 @@ class CreateProductService {
     });
     await schema.validate({ name, price, quantity }, { abortEarly: false });
 
-    const redisCache = new RedisCache();
     const productAlreadyExists = await this.productsRepository.findName(name);
     if (productAlreadyExists)
       throw new AppError('This product already exists with this name');
